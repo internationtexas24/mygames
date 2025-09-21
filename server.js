@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const serveStatic = require('serve-static');
-const bare = require('@titaniumnetwork-dev/bare-server-node');
 const { uvPath } = require('@titaniumnetwork-dev/ultraviolet-static');
 const http = require('http');
 
@@ -174,11 +173,7 @@ app.post('/admin/remove-game', requireAdmin, (req,res)=>{
 // ---------------- ULTRAVIOLET ----------------
 app.use('/uv/', serveStatic(uvPath));
 const server = http.createServer(app);
-const bareServer = bare();
-server.on('request',(req,res)=>{ 
-  if (bareServer.shouldRoute(req)) bareServer.routeRequest(req,res); 
-  else app(req,res); 
-});
+
 server.on('upgrade',(req,socket,head)=>{ if(bareServer.shouldRoute(req)) bareServer.routeUpgrade(req,socket,head); });
 
 server.listen(PORT, ()=>{ console.log(`3kh0-node-uv with UV on http://localhost:${PORT}`); });
