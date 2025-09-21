@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Admin</title><link rel="stylesheet" href="/public/style.css"></head>
+<body>
+<header><h1>Admin Console</h1><nav><a href="/">Site</a><a href="/logout">Logout</a></nav></header>
+<main>
+<h2>Users</h2>
+<form method="post" action="/admin/create-user">
+<input type="hidden" name="csrf" value="<%=csrf%>">
+<input name="username" placeholder="username" required>
+<input name="password" placeholder="password" required>
+<button>Create User</button>
+</form>
+
+<form method="post" action="/admin/change-password">
+<input type="hidden" name="csrf" value="<%=csrf%>">
+<select name="username"><% users.forEach(u=>{ %><option><%=u.username%></option><% }) %></select>
+<input name="new_password" placeholder="new password" required>
+<button>Change Password</button>
+</form>
+
+<form method="post" action="/admin/remove-user">
+<input type="hidden" name="csrf" value="<%=csrf%>">
+<select name="username"><% users.forEach(u=>{ %><option><%=u.username%></option><% }) %></select>
+<button>Remove User</button>
+</form>
+
+<h2>Games</h2>
+<form method="post" action="/admin/add-game">
+<input type="hidden" name="csrf" value="<%=csrf%>">
+<input name="title" placeholder="Game Title" required>
+<input name="url" placeholder="https://..." required>
+<button>Add Game</button>
+</form>
+
+<form method="post" action="/admin/remove-game">
+<input type="hidden" name="csrf" value="<%=csrf%>">
+<select name="title"><% games.forEach(g=>{ %><option><%=g.title%></option><% }) %></select>
+<button>Remove Game</button>
+</form>
+
+</main>
+</body>
+</html>
